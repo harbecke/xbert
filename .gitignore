@@ -54,6 +54,7 @@ Dockerfile~
 # Coverage
 .coverage
 
+results/
 models/*
 !models/.gitkeep
 
