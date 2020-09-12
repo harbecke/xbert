@@ -11,11 +11,9 @@ def filter_and_sort_candidates(candidates_dict, min_weight=2):
     return
 
 
-def processed_dict_to_list(candidates_dict):
-    output_list = []
-    for index, values in candidates_dict.items():
-        output_list.append([(sentence_list[index], weight, prediction) for sentence_list, weight, prediction in values])
-    return output_list
+def processed_candidates_dict_to_list(candidates_dict):
+    return [[(sentence_list[index], weight, prediction) for sentence_list, weight, prediction in values]
+            for index, values in candidates_dict.items()]
 
 
 def latex_table_row(candidates_row):
@@ -38,7 +36,7 @@ def run(results_dir, index):
         candidate_instances, candidate_results = dill.load(in_f)
     instances_dict, candidates_dict = create_candidate_dicts(candidate_instances, candidate_results)
     filter_and_sort_candidates(candidates_dict[index])
-    candidates_list = processed_dict_to_list(candidates_dict[index])
+    candidates_list = processed_candidates_dict_to_list(candidates_dict[index])
     return processed_list_to_latex_table(candidates_list)
 
 
