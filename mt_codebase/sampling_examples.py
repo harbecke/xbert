@@ -1,10 +1,5 @@
-import dill
 import csv
 from collections import defaultdict
-
-
-with open("../results/cola/resampling/candidate_instances.pkl", "rb") as in_f:
-    candidate_instances, candidate_results = dill.load(in_f)
 
 
 def create_candidate_dicts(candidate_instances, candidate_results):
@@ -21,53 +16,37 @@ def create_candidate_dicts(candidate_instances, candidate_results):
             candidates_dict[id_counter][replace_counter].append(
                 (instance.token_fields["sent"].tokens, instance.weight, result))
             weight_sum += instance.weight
-        
+
         else:
             replace_counter = 0
             weight_sum = 0
             id_counter += 1
             instances_dict[id_counter] = [instance.token_fields["sent"].tokens, result]
-            
+
     return instances_dict, candidates_dict
 
 
-def read_dataset_and_append_label(data1, data2, output):
+def read_instances_dict_and_append_label(data1, data2, instances_dict):
     with open(data1, 'r') as csv_file_1:
         spamreader = csv.reader(csv_file_1, delimiter='\t')
         next(spamreader)
         for idx1, line in enumerate(spamreader):
-            output[idx1].append(line[1])
-            
+            instances_dict[idx1].append(line[1])
+
     with open(data2, 'r') as csv_file_2:
         spamreader = csv.reader(csv_file_2, delimiter='\t')
         for idx2, line in enumerate(spamreader):
-            instances_dict[idx1+idx2+1].append(line[1])
-    
+            instances_dict[idx1 + idx2 + 1].append(line[1])
     return
 
 
-# In[8]:
+def filter_and_sort_candidates(candidates_dict, min_weight=2):
+    for index, values in candidates_dict.items():
+        values = filter(lambda x: x[1] >= min_weight, values)
+        candidates_dict[index] = sorted(values, reverse=True, key=lambda x: x[1])
+    return
 
 
-instances_dict, candidates_dict = create_candidate_dicts(candidate_instances, candidate_results)
-
-
-# In[9]:
-
-
-read_dataset_and_append_label("../results/cola/in_domain_dev.tsv",
-                              '../results/cola/out_of_domain_dev.tsv',
-                              instances_dict)
-
-
-# In[10]:
-
-
-instances_dict[0]
-
-
-# In[11]:
-
-
-candidates_dict[0][9][1]
-
+def processed_candidates_dict_to_list(candidates_dict):
+    return [[(sentence_list[index], weight, prediction) for sentence_list, weight, prediction in values]
+            for index, values in candidates_dict.items()]
