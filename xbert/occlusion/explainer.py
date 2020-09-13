@@ -59,7 +59,7 @@ class IntegrateGradExplainer(VanillaGradExplainer):
         grad = 0
         inp_data = inp[self.input_key].data.clone()
 
-        for alpha in np.linspace(0, 1.0, num=self.steps, endpoint=False):
+        for alpha in np.linspace(0, 1.0, num=self.steps):
             new_inp = inp.copy()
             new_inp[self.input_key] = Variable(inp_data * alpha, requires_grad=True)
             g = self._backprop(new_inp, ind)

@@ -13,3 +13,14 @@ def experiment_load_relevances(experiment_dir: str,
             experiment_relevances[subfolder] = relevances
 
     return experiment_relevances
+
+
+def relevances_to_lists(instances_dict, relevances_dict, method):
+    assert instances_dict.keys() == relevances_dict.keys()
+    relevance_lists = [[], []]
+
+    for key, values in instances_dict.items():
+        if values[1] > 0.9:
+            relevance_lists[int(values[2])].append(method(relevances_dict[key].values()))
+
+    return relevance_lists
