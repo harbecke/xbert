@@ -1,3 +1,4 @@
+import csv
 import numpy as np
 
 
@@ -42,3 +43,14 @@ def relevances_lists_to_t_values(relevance_lists):
     den = cav[0][2]/cav[0][0] + cav[1][2]/cav[1][0]
     dgf_den = cav[0][2]**2/cav[0][0]**3 + cav[1][2]**2/cav[1][0]**3
     return num / den**0.5, den**2 / dgf_den
+
+
+def read_labels(tsv_file):
+    label_list = []
+
+    with open(tsv_file, 'r') as csv_file_1:
+        spamreader = csv.reader(csv_file_1, delimiter='\t')
+        for line in spamreader:
+            label_list.append(line[1])
+
+    return label_list
