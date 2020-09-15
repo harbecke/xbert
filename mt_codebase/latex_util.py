@@ -36,7 +36,7 @@ def relevance_to_colored_text(relevance_dict, input_instance):
 
 def colored_text_to_table(relevance_dict, input_instance):
     table_string_start = ["\\begin{table*}[h]", "  \\centering", "  \\begin{tabular}{l|l|l}",
-                          "    method&relevances&maximum value \\\ \hline"]
+                          "    method&relevances&max value \\\ \midrule"]
     table_string_end = ["  \\end{tabular}", "  \\caption{Example explanations for SST-2}",
                         "  \\label{tab:example_explanations}", "\\end{table*}"]
 
@@ -48,13 +48,13 @@ def colored_text_to_table(relevance_dict, input_instance):
 
 
 def colored_text_to_table_cola(relevance_dict, input_instances, idc, method):
-    table_string_start = ["\\begin{table*}[h]", "  \\centering", "  \\begin{tabular}{l|l|l}",
-                          "    method&relevances&maximum value \\\ \hline"]
-    table_string_end = ["  \\end{tabular}", "  \\caption{Example explanations for SST-2}",
-                        "  \\label{tab:example_explanations}", "\\end{table*}"]
+    table_string_start = ["\\begin{table*}[h]", "  \\centering", "  \\begin{tabular}{l|l}",
+                          "    relevances&max value \\\ \midrule"]
+    table_string_end = ["  \\end{tabular}", "  \\caption{Example explanations for CoLA}",
+                        "  \\label{tab:example_explanations_cola}", "\\end{table*}"]
 
     for idx in idc:
         text, max_value = relevance_to_colored_text(relevance_dict[method][idx], input_instances[idx])
-        table_string_start.append(f"    {method}&{text}&{'%.2g' % max_value}\\\\")
+        table_string_start.append(f"    {text}&{'%.2g' % max_value}\\\\")
 
     return "\n".join(table_string_start + table_string_end)
