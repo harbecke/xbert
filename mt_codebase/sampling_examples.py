@@ -49,6 +49,15 @@ def read_instances_dict_and_append_label_sst(data1, instances_dict):
     return
 
 
+def read_instances_dict_and_append_label_fava(data1, instances_dict):
+    with open(data1, 'r') as csv_file:
+        spamreader = csv.reader(csv_file, delimiter='\t')
+        next(spamreader)
+        for idx1, line in enumerate(spamreader):
+            instances_dict[idx1].extend([line[1], line[0]])
+    return
+
+
 def filter_and_sort_candidates(candidates_dict, min_weight=2):
     for index, values in candidates_dict.items():
         values = filter(lambda x: x[1] >= min_weight, values)
