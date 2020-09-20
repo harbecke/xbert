@@ -26,21 +26,7 @@ def create_candidate_dicts(candidate_instances, candidate_results):
     return instances_dict, candidates_dict
 
 
-def read_instances_dict_and_append_label_cola(data1, data2, instances_dict):
-    with open(data1, 'r') as csv_file_1:
-        spamreader = csv.reader(csv_file_1, delimiter='\t')
-        next(spamreader)
-        for idx1, line in enumerate(spamreader):
-            instances_dict[idx1].append(line[1])
-
-    with open(data2, 'r') as csv_file_2:
-        spamreader = csv.reader(csv_file_2, delimiter='\t')
-        for idx2, line in enumerate(spamreader):
-            instances_dict[idx1 + idx2 + 1].append(line[1])
-    return
-
-
-def read_instances_dict_and_append_label_sst(data1, instances_dict):
+def read_instances_dict_and_append_label_cola(data1, instances_dict):
     with open(data1, 'r') as csv_file:
         spamreader = csv.reader(csv_file, delimiter='\t')
         next(spamreader)
