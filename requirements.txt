@@ -1,9 +1,13 @@
 transformers
-allennlp
 segtok
 pandas
 dill
 
 # testing
 pytest
-pytest-cov
+
+matplotlib
+scipy
+tqdm
+overrides
+jupyter

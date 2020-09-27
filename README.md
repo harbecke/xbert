@@ -1,35 +1,23 @@
-# xBert: Occlusion powered by BERT
+# OLM: Occlusion with Language Modeling
+
+This is the repo for my Master's Thesis "Explaining Natural Language Processing Classifiers with Occlusion and Language Modeling".
+It is build on a clone from a previous version of the paper repository https://github.com/DFKI-NLP/OLM.
+Code that I wrote exclusively for the thesis can be found in the mt_codebase and mt_notebooks folders.
+mt_codebase contains functions that I used in the notebooks and the evaluate_fava script that evaluates a model on a FAVA.
+mt_notebook contains notebooks with cached results. 
 
 ## Installation
 
-First, clone the repository to your machine and install the requirements with the following command:
+Install pytorch from https://pytorch.org/get-started/locally/
+
+Then clone the repository to your machine and install the requirements with the following command:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## xBert Tasks
+## (if needed) Rerun Experiments
 
-### SST2
-Dataset (part of [GLUE](https://gluebenchmark.com/tasks)): [Download](https://firebasestorage.googleapis.com/v0/b/mtl-sentence-representations.appspot.com/o/data%2FSST-2.zip?alt=media&token=aabc5f6b-e466-44a2-b9b4-cf6337f84ac8)
+Unpack the results.zip from the root directory to not reproduce the explanation results from the paper experiments (takes hours) which are needed for some scripts.
 
-In `xbert_tasks/sst2_sentiment_clf.jsonnet`, change `train_data_path` and `validation_data_path` accordingly.
-
-Run model training with the following command:
-
-```bash
-allennlp train ./xbert_tasks/sst2_sentiment_clf.jsonnet -s <MODEL_DIR> --include-package xbert_tasks
-```
-
-#### Notebook
-
-Change `SST_DATASET_PATH` to the dataset path and `MODEL_DIR` to the directory of the persisted model (e.g. as specified in the above training command).
-
-### MNLI
-Dataset (part of [GLUE](https://gluebenchmark.com/tasks)): [Download](https://firebasestorage.googleapis.com/v0/b/mtl-sentence-representations.appspot.com/o/data%2FMNLI.zip?alt=media&token=50329ea1-e339-40e2-809c-10c40afff3ce)
-
-Download the dataset and unpack into `data/glue_tasks/MNLI/`.
-
-#### Notebook
-
-`notebooks/relevance-mnli.ipynb` contains the notebook to visualize occlusion results.
+Run mt_codebase/evaluate_fava and the notebooks in mt_notebooks.
